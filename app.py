@@ -32,7 +32,7 @@ from sklearn.metrics.pairwise import(
 
 app = Flask(__name__)
 
-f=open("chatbot.txt",r,errors="ignore")
+f=open("chatbot.txt",'r',errors="ignore")
 raw = f.read()
 
 raw = raw.lower()
