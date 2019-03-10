@@ -13,7 +13,8 @@ from linebot.exceptions import(
 )
 
 from linebot.models import(
-    MessageEvent,TextMessage,TextSendMessage
+    MessageEvent,TextMessage,TextSendMessage,
+    StickerMessage,StickerSendMessage
 )
 
 app = Flask(__name__)
@@ -26,7 +27,7 @@ def callback():
     signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
-    print(body)
+
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
@@ -35,9 +36,13 @@ def callback():
     return 'OK'
 
 @handler.add(MessageEvent,message=TextMessage)
-def handle_message(event):
+def handle_text_message(event):
     lineBotApi.reply_message(event.reply_token,TextSendMessage(text=event.message.text))
 
+@handler.add(MessageEvent,message=StickerMessage)
+def handle_sticker_message(event):
+    lineBotApi.reply_message(event.reply_token,StickerSendMessage(package_id=event.message.package_id,sticker_id=event.message.sticker_id))
+
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT',5000))
-    app.run(host='0.0.0.0',port=port)
+    port = int(os.environ.get('PORT',1234))
+    app.run(host='0.0.0.0',port=port,debug=True)
