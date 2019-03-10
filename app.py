@@ -56,7 +56,6 @@ def LemNormalize(text):
 GREETING_INPUTS = ("hello", "hi", "greetings", "sup", "what's up","hey",)
 GREETING_RESPONSES = ["hi", "hey", "*nods*", "hi there", "hello", "I am glad! You are talking to me"]
 def greeting(sentence):
- 
     for word in sentence.split():
         if word.lower() in GREETING_INPUTS:
             return random.choice(GREETING_RESPONSES)
@@ -66,7 +65,7 @@ def response(user_response):
     robo_response=''
     sent_token.append(user_response)
     TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words='english')
-    tfidf = TfidfVec.fit_transform(sent_tokens)
+    tfidf = TfidfVec.fit_transform(sent_token)
     vals = cosine_similarity(tfidf[-1], tfidf)
     idx=vals.argsort()[0][-2]
     flat = vals.flatten()
