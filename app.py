@@ -35,6 +35,7 @@ def callback():
 
 @handler.add(MessageEvent,message=TextMessage)
 def handle_message(event):
+    app.logger.info("Event : " + event)
     lineBotApi.reply_message(event.reply_token,TextSendMessage(text=event.message.text))
 
 if __name__ == "__main__":
