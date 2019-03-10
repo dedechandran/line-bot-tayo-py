@@ -1,5 +1,7 @@
 import os
-import json
+from decouple import(
+    config
+)
 from flask import(
     Flask,request,abort
 )
@@ -19,8 +21,8 @@ from linebot.models import(
 
 app = Flask(__name__)
 
-lineBotApi = LineBotApi('xMJm2PyVKN4v0Z1hDHZxQZ3wjtu9uVADZvURZj4mVll3lZVDfO6v822eAbxnD6JA5aH8rsmMU/x7N3tAp2V0rnGM5hRkazcXObYt/85reI9zamVVp7BfqTja193ycCETfNMyTh592YN20+Ec1/HBlwdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('3f5bd8450f7e556bedb854b3cf284775')
+lineBotApi = LineBotApi(config("LINE_CHANNEL_ACCESS_TOKEN",default=os.environ.get('LINE_ACCESS_TOKEN')))
+handler = WebhookHandler(config("LINE_CHANNEL_SECRET",default=os.environ.get('LINE_CHANNEL_SECRET')))
 
 @app.route("/webhook",methods=['POST'])
 def callback():
