@@ -1,4 +1,5 @@
 import os
+import json
 from flask import(
     Flask,request,abort
 )
@@ -35,7 +36,7 @@ def callback():
 
 @handler.add(MessageEvent,message=TextMessage)
 def handle_message(event):
-    app.logger.info("Event : " + event)
+    app.logger.info("Event : " + json.dumps(event))
     lineBotApi.reply_message(event.reply_token,TextSendMessage(text=event.message.text))
 
 if __name__ == "__main__":
